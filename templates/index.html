@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hangman Game</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+<style>
+        #hangman-image img {
+            max-width: 150px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hangman Game</h1>
+        <div id="hangman-image">
+            <img src="{{ url_for('static', filename='images/hangman_0.png') }}" alt="Hangman Image">
+        </div>
+        <div id="word-display">
+            <p>{{ display }}</p>
+        </div>
+        <div id="lives">
+            <p>Lives: {{ lives }}</p>
+        </div>
+        <div id="guess-form">
+            <form action="/guess" method="post">
+                <input type="text" name="letter" placeholder="Guess a letter" required>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div id="message">
+            <p>{{ message }}</p>
+        </div>
+        {% if end_of_game %}
+        <div id="replay-container">
+            <form action="/restart" method="get">
+                <input type="submit" value="Play Again">
+            </form>
+        </div>
+        {% endif %}
+    </div>
+       <script>
+        // Place the JavaScript code here
+        var hangmanImages = [
+            "{{ url_for('static', filename='images/hangman_0.png') }}",
+            "{{ url_for('static', filename='images/hangman_1.png') }}",
+            "{{ url_for('static', filename='images/hangman_2.png') }}",
+            "{{ url_for('static', filename='images/hangman_3.png') }}",
+            "{{ url_for('static', filename='images/hangman_4.png') }}",
+            "{{ url_for('static', filename='images/hangman_5.png') }}",
+            // Add more image URLs for each stage of the hangman game
+        ];
+
+        function guessLetter(event) {
+            event.preventDefault();
+
+            // Get the letter input value and make the AJAX request
+            var letterInput = document.getElementById('letter-input');
+            var letter = letterInput.value.toLowerCase();
+
+            // Make the AJAX request to submit the letter
+            fetch('/guess', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ letter: letter })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the game state based on the response data
+                updateGameState(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            // Clear the letter input field
+            letterInput.value = '';
+        }
+
+        function updateGameState(data) {
+            var wordDisplay = document.getElementById('word-display').querySelector('p');
+            var livesDisplay = document.getElementById('lives').querySelector('p');
+            var messageDisplay = document.getElementById('message').querySelector('p');
+            var hangmanImage = document.getElementById('hangman-image').querySelector('img');
+
+            // Update the word display, lives, and message based on the response data
+            wordDisplay.textContent = data.display;
+            livesDisplay.textContent = 'Lives: ' + data.lives;
+            messageDisplay.textContent = data.message;
+
+            // Update the hangman image based on the number of remaining lives
+            hangmanImage.src = hangmanImages[data.lives];
+
+            // Check if the game is over and disable the input field and submit button
+            var letterInput = document.getElementById('letter-input');
+            var submitButton = document.querySelector('#guess-form input[type="submit"]');
+            if (data.gameOver) {
+                letterInput.disabled = true;
+                submitButton.disabled = true;
+            }
+        }
+
+        function restartGame() {
+            fetch('/restart', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === "Game restarted successfully.") {
+                        window.location.reload();
+                    }
+                });
+        }
+    </script>
+</body>
+</html>

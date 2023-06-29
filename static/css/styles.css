@@ -1,0 +1,89 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-image: url("../images/background.jpg");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  color: #333333;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+#hangman-image img {
+  width: 200px;
+}
+
+#word-display {
+  margin: 20px 0;
+  font-size: 24px;
+}
+
+#guess-form input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+}
+
+#guess-form input[type="submit"] {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #333333;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+#message {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#replay-container {
+  margin-top: 20px;
+}
+
+#replay-container input[type="submit"] {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #333333;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+@media (max-width: 480px) {
+  .container {
+    margin-top: 100px;
+  }
+
+  .hangman-image img {
+    width: 250px;
+  }
+
+  #word-display {
+    font-size: 30px;
+  }
+
+  #guess-form input[type="text"] {
+    font-size: 20px;
+  }
+
+  #guess-form button {
+    padding: 15px 30px;
+    font-size: 20px;
+  }
+
+  #result {
+    font-size: 20px;
+  }
+}
