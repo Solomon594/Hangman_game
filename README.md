@@ -4,6 +4,10 @@ The Hangman Game is a classic word guessing game where the player tries to guess
 
 This project implements the Hangman Game as a web application using Flask, HTML, CSS, and JavaScript. It allows users to play the game in their web browser.
 
+# Collaborators
+# Glory Ada Ogbondah: Backend developer
+Well, working behind the scenes has been something I really love, I love being able to create something that would be enjoyed and be of help to the society. I chose this game, because of it's educative contents, it aids vocabulary improvements, English language development and it's complete fun
+
 ## Features
 
 - Randomly selects a word from a predefined word list.
